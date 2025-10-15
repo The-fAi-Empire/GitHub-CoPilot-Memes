@@ -1,0 +1,88 @@
+name: Welcome New Meme Contributors
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcome New Contributor
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const username = issue.user.login;
+            
+            // Check if it's a meme submission
+            const labels = issue.labels.map(label => label.name);
+            if (labels.includes('meme-submission')) {
+              const welcomeMessage = `
+            ## 🎉 Welcome @${username}! Your Copilot fail has been received!
+            
+            Thank you for bravely sharing your Copilot disaster with the community! 
+            
+            ### 🎨 What happens next:
+            
+            1. ✨ Our team will review your submission (usually within 24-48 hours)
+            2. 🎨 We'll create an epic meme featuring your fail
+            3. 🔥 You'll be featured on [our website](https://faiempire.github.io/GitHub-CoPilot-Memes/) with your @${username}
+            4. 📢 We'll tag you here when your meme goes live!
+            5. 🎉 You can share your internet fame with the world
+            
+            ### 🚀 While you wait:
+            
+            - ⭐ [Star this repo](https://github.com/fAIempire/GitHub-CoPilot-Memes) to stay updated
+            - 💬 Join the [discussions](https://github.com/fAIempire/GitHub-CoPilot-Memes/discussions) to share more stories
+            - 🔍 Browse other [fails in the gallery](https://faiempire.github.io/GitHub-CoPilot-Memes/#gallery)
+            
+            **You're about to become part of meme history!** 💙
+            
+            ---
+            
+            *P.S. If you want to speed things up, feel free to ping us or drop a 👍 reaction!*
+              `;
+              
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: welcomeMessage
+              });
+              
+              // Add relevant labels based on the issue content
+              const title = issue.title.toLowerCase();
+              const body = issue.body.toLowerCase();
+              
+              let additionalLabels = [];
+              
+              if (body.includes('security') || body.includes('password') || body.includes('auth')) {
+                additionalLabels.push('security-oops');
+              }
+              if (body.includes('delete') || body.includes('drop') || body.includes('rm -rf')) {
+                additionalLabels.push('breaking-changes');
+              }
+              if (body.includes('logic') || body.includes('makes no sense')) {
+                additionalLabels.push('logic-fail');
+              }
+              if (body.includes('variable') || body.includes('naming')) {
+                additionalLabels.push('naming-disaster');
+              }
+              
+              if (additionalLabels.length > 0) {
+                github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: additionalLabels
+                });
+              }
+            }
+
+      - name: Add to Project Board
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // This will add the issue to a project board for tracking
+            console.log('Issue added to meme creation pipeline');

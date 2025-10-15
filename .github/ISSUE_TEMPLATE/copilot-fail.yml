@@ -1,0 +1,140 @@
+name: 🔥 Submit Your Copilot Fail
+description: Share your hilarious Copilot disaster and get featured as a meme!
+title: "[FAIL]: "
+labels: ["meme-submission", "needs-review"]
+assignees:
+  - fAIempire
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎉 Thanks for sharing your Copilot fail!
+        
+        Your brave contribution will make others laugh (and learn). Fill out the info below and we'll turn your disaster into an epic meme!
+
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: 📸 Consent to Get Famous
+      description: By checking this, you agree to let us feature your fail with your GitHub username
+      options:
+        - label: "✅ YES! Turn my fail into a meme and feature my @username (this is how you get internet famous)"
+          required: true
+        - label: "🔥 I want to be tagged in the comments when my meme goes live"
+          required: false
+
+  - type: input
+    id: fail-title
+    attributes:
+      label: 💀 Give Your Fail a Catchy Title
+      description: Make it dramatic! (e.g., "It deleted my entire database", "Copilot thought I wanted to hack NASA")
+      placeholder: "It suggested using 'password123' for production auth"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 🎯 Category of Chaos
+      description: What kind of disaster was this?
+      options:
+        - 🔨 Breaking Changes (it broke everything)
+        - 🧠 Logic Fails (technically runs, but makes no sense)
+        - 🔐 Security Oops (suggested something VERY insecure)
+        - 🏷️ Naming Disasters (variable names that hurt to read)
+        - 🎭 Other Comedy Gold
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 📖 Tell Us What Happened
+      description: Walk us through the disaster. What were you trying to do? What did Copilot suggest?
+      placeholder: |
+        I was trying to: Write a function to delete old logs
+        
+        Copilot suggested: A function that deletes the entire production database
+        
+        What actually happened: I almost ran it before coffee kicked in
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-snippet
+    attributes:
+      label: 💻 The Cursed Code
+      description: Paste the actual code Copilot suggested (use ``` for code blocks)
+      placeholder: |
+        ```python
+        def delete_old_logs():
+            # Copilot's "helpful" suggestion
+            os.system("rm -rf /")
+        ```
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 📸 Screenshot (Optional but Encouraged!)
+      description: Drag and drop a screenshot of the fail. Makes MUCH better memes!
+      placeholder: Drag your screenshot here or paste image URL
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 😱 Damage Level
+      description: How bad could this have been?
+      options:
+        - 😅 Harmless (just funny)
+        - 😰 Could've been embarrassing
+        - 😱 Would've broken staging
+        - 💀 Would've destroyed production
+        - ☢️ Could've ended my career
+    validations:
+      required: true
+
+  - type: textarea
+    id: lesson-learned
+    attributes:
+      label: 🎓 Lesson Learned
+      description: What did you learn? (So others can avoid the same trap)
+      placeholder: "Always read Copilot's suggestions before accepting. Coffee is NOT optional."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 🎨 Extra Context for Meme Creators
+      description: Anything else that would make the meme funnier? Language used? Project context?
+      placeholder: "This was for a banking app. The irony was real."
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 📜 Final Check
+      options:
+        - label: "I confirm this code was actually suggested by GitHub Copilot"
+          required: true
+        - label: "I'm okay with this being shared publicly (with my @username)"
+          required: true
+        - label: "I understand memes will be created in good humor, celebrating not mocking"
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        ### 🚀 What Happens Next?
+        
+        1. ✨ We review your submission (usually within 24-48 hours)
+        2. 🎨 Our meme team creates your masterpiece
+        3. 🔥 You get featured on the website with your @username
+        4. 📢 We tag you when it's live so you can share it!
+        5. 🎉 You become part of meme history
+        
+        **Thank you for making the developer community more fun!** 💙

@@ -1,0 +1,55 @@
+name: ⚡ Quick Fail Submission
+description: Got a quick Copilot fail? Share it fast!
+title: "[QUICK]: "
+labels: ["meme-submission", "quick-submit", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚡ Quick Submit
+        
+        For when you just need to share the chaos FAST!
+
+  - type: checkboxes
+    id: consent-quick
+    attributes:
+      label: 📸 Feature Me!
+      options:
+        - label: "✅ YES! Make me a meme with my @username"
+          required: true
+
+  - type: input
+    id: quick-title
+    attributes:
+      label: What Happened?
+      placeholder: "Copilot tried to make me mine Bitcoin in my authentication function"
+    validations:
+      required: true
+
+  - type: textarea
+    id: quick-code
+    attributes:
+      label: The Code (or Screenshot)
+      description: Paste code or drag screenshot
+      placeholder: "Drop the evidence here!"
+      render: shell
+    validations:
+      required: true
+
+  - type: dropdown
+    id: quick-category
+    attributes:
+      label: Category
+      options:
+        - Breaking Changes
+        - Logic Fails  
+        - Security Oops
+        - Naming Disasters
+        - Other
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        That's it! We'll make you famous 🚀
