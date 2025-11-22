@@ -192,8 +192,9 @@ async function loadMemesFromGitHub() {
             'Accept': 'application/vnd.github.v3+json'
         };
         // Add authentication token if available to increase rate limits
-        // Note: GITHUB_TOKEN should be provided via environment variable or secure configuration
-        // Do NOT hardcode tokens in client-side code for security reasons
+        // SECURITY WARNING: Token authentication should be handled server-side via a backend proxy
+        // Client-side tokens are visible to users and should never be used in production
+        // This code is provided as a placeholder for server-side implementation
         if (typeof GITHUB_TOKEN !== 'undefined' && GITHUB_TOKEN) {
             headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
         }
@@ -205,7 +206,7 @@ async function loadMemesFromGitHub() {
         // Check for rate limiting
         if (response.status === 403) {
             const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
-            if (rateLimitRemaining === '0') {
+            if (rateLimitRemaining !== null && rateLimitRemaining === '0') {
                 const rateLimitReset = response.headers.get('X-RateLimit-Reset');
                 const resetTime = rateLimitReset ? new Date(rateLimitReset * 1000).toLocaleTimeString() : 'later';
                 throw new Error(`GitHub API rate limit exceeded. Try again at ${resetTime}`);
