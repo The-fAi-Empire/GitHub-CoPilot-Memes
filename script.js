@@ -105,7 +105,7 @@ function reactToMeme(memeId, reactionType) {
     if (!meme) return;
     
     // Increment reaction count (in real app, this would call an API)
-    if (meme.reactions.hasOwnProperty(reactionType)) {
+    if (reactionType in meme.reactions) {
         meme.reactions[reactionType]++;
     }
     
@@ -220,6 +220,10 @@ async function loadMemesFromGitHub() {
             category: getCategoryFromLabels(issue.labels),
             image: extractImageFromIssue(issue.body),
             reactions: {
+                // Map GitHub reactions to our custom emoji reactions
+                // laugh (😂) <- laugh reaction from GitHub
+                // skull (💀) <- confused reaction from GitHub
+                // fire (🔥) <- hooray reaction from GitHub
                 laugh: issue.reactions.laugh || 0,
                 skull: issue.reactions.confused || 0,
                 fire: issue.reactions.hooray || 0
