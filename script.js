@@ -192,6 +192,8 @@ async function loadMemesFromGitHub() {
             'Accept': 'application/vnd.github.v3+json'
         };
         // Add authentication token if available to increase rate limits
+        // Note: GITHUB_TOKEN should be provided via environment variable or secure configuration
+        // Do NOT hardcode tokens in client-side code for security reasons
         if (typeof GITHUB_TOKEN !== 'undefined' && GITHUB_TOKEN) {
             headers['Authorization'] = `token ${GITHUB_TOKEN}`;
         }
@@ -222,6 +224,10 @@ async function loadMemesFromGitHub() {
             category: getCategoryFromLabels(issue.labels),
             image: extractImageFromIssue(issue.body),
             reactions: {
+                // Map GitHub reaction types to our display reactions:
+                // laugh emoji from GitHub -> laugh reaction
+                // confused emoji from GitHub -> skull reaction (represents confusion/mind blown)
+                // hooray emoji from GitHub -> fire reaction (represents excitement/celebration)
                 laugh: issue.reactions.laugh || 0,
                 skull: issue.reactions.confused || 0,
                 fire: issue.reactions.hooray || 0
