@@ -204,9 +204,9 @@ async function loadMemesFromGitHub() {
         
         // Check for rate limiting
         if (response.status === 403) {
-            const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
+            const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
             if (rateLimitRemaining === '0') {
-                const rateLimitReset = response.headers.get('x-ratelimit-reset');
+                const rateLimitReset = response.headers.get('X-RateLimit-Reset');
                 const resetTime = rateLimitReset ? new Date(rateLimitReset * 1000).toLocaleTimeString() : 'later';
                 throw new Error(`GitHub API rate limit exceeded. Try again at ${resetTime}`);
             }
