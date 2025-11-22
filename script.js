@@ -195,7 +195,7 @@ async function loadMemesFromGitHub() {
         // Note: GITHUB_TOKEN should be provided via environment variable or secure configuration
         // Do NOT hardcode tokens in client-side code for security reasons
         if (typeof GITHUB_TOKEN !== 'undefined' && GITHUB_TOKEN) {
-            headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+            headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
         }
         
         const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission', {
@@ -204,7 +204,7 @@ async function loadMemesFromGitHub() {
         
         // Check for rate limiting
         if (response.status === 403) {
-            const rateLimitReset = response.headers.get('X-RateLimit-Reset');
+            const rateLimitReset = response.headers.get('x-ratelimit-reset');
             const resetTime = rateLimitReset ? new Date(rateLimitReset * 1000).toLocaleTimeString() : 'later';
             throw new Error(`GitHub API rate limit exceeded. Try again at ${resetTime}`);
         }
