@@ -231,6 +231,7 @@ function getCategoryFromLabels(labels) {
 // Helper function to extract image URL from issue body
 function extractImageFromIssue(body) {
     // Extract markdown image URL
+    if (!body) return 'assets/memes/placeholder.png';
     const imageRegex = /!\[.*?\]\((.*?)\)/;
     const match = body.match(imageRegex);
     return match ? match[1] : 'assets/memes/placeholder.png';
