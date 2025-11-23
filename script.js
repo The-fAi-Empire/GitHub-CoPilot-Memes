@@ -211,11 +211,25 @@ async function loadMemesFromGitHub() {
     } catch (error) {
         console.error('Error loading memes from GitHub:', error);
         // Show user feedback when loading fails
-        const featuredSection = document.getElementById('featured-memes');
-        const gallerySection = document.getElementById('meme-gallery');
-        const errorMessage = '<p class="error-message">Failed to load memes from GitHub. Please try again later.</p>';
-        if (featuredSection) featuredSection.innerHTML = errorMessage;
-        if (gallerySection) gallerySection.innerHTML = errorMessage;
+        displayErrorMessage('Failed to load memes from GitHub. Please try again later.');
+    }
+}
+
+// Helper function to display error messages
+function displayErrorMessage(message) {
+    const featuredSection = document.getElementById('featured-memes');
+    const gallerySection = document.getElementById('meme-gallery');
+    const errorElement = document.createElement('p');
+    errorElement.className = 'error-message';
+    errorElement.textContent = message;
+    
+    if (featuredSection) {
+        featuredSection.innerHTML = '';
+        featuredSection.appendChild(errorElement.cloneNode(true));
+    }
+    if (gallerySection) {
+        gallerySection.innerHTML = '';
+        gallerySection.appendChild(errorElement.cloneNode(true));
     }
 }
 
