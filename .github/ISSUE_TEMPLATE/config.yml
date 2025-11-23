@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🎨 View the Meme Gallery
+    url: https://faiempire.github.io/GitHub-CoPilot-Memes/
+    about: Check out all the featured Copilot fails!
+  - name: 💬 Community Discussions
+    url: https://github.com/fAIempire/GitHub-CoPilot-Memes/discussions
+    about: Chat with other developers about their Copilot experiences

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GitHub Copilot Memes - Share your hilarious Copilot fails and get featured!">
+    <title>GitHub Copilot Memes | #CoPilotDaily #GitLost</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="assets/snail-cat-logo.png" alt="Snail Cat Logo">
+                <h1>GitHub Copilot Memes</h1>
+            </div>
+            <nav>
+                <a href="#gallery">Gallery</a>
+                <a href="#submit">Submit Your Fail</a>
+                <a href="#about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>When Copilot Writes Code... 🐌💻</h2>
+            <p class="tagline">Animated stories of one-shot fixes that broke everything</p>
+            <div class="cta-buttons">
+                <a href="#gallery" class="btn btn-primary">View Memes</a>
+                <a href="#submit" class="btn btn-secondary">Share Your Fail & Get Featured!</a>
+            </div>
+            <div class="hashtags">#CoPilotDaily #GitLost #CopilotFails</div>
+        </div>
+    </section>
+
+    <section id="featured" class="featured-section">
+        <div class="container">
+            <h2>🔥 Featured Community Fails</h2>
+            <p class="section-description">These brave developers shared their Copilot disasters. Submit yours to get featured!</p>
+            <div class="meme-grid" id="featured-memes">
+                <!-- Featured memes will be loaded here -->
+                <div class="meme-card">
+                    <div class="meme-header">
+                        <span class="contributor">@octocat</span>
+                        <span class="date">Oct 2025</span>
+                    </div>
+                    <div class="meme-content">
+                        <img src="assets/memes/sample-meme.png" alt="Copilot Meme">
+                    </div>
+                    <div class="meme-footer">
+                        <p class="meme-title">"It suggested deleting production database" 💀</p>
+                        <div class="meme-reactions">
+                            <button class="reaction">😂 1.2k</button>
+                            <button class="reaction">💀 856</button>
+                            <button class="reaction">🔥 432</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2>Hall of Fails</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="breaking">Breaking Changes</button>
+                <button class="filter-btn" data-filter="logic">Logic Fails</button>
+                <button class="filter-btn" data-filter="security">Security Oops</button>
+                <button class="filter-btn" data-filter="naming">Naming Disasters</button>
+            </div>
+            <div class="meme-grid" id="meme-gallery">
+                <!-- Memes will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <section id="submit" class="submit-section">
+        <div class="container">
+            <h2>Got a Copilot Fail? Share It!</h2>
+            <div class="submit-content">
+                <div class="submit-info">
+                    <h3>Your Fail Could Be Next! 🚀</h3>
+                    <ul>
+                        <li>✅ Submit your Copilot disaster through GitHub Issues</li>
+                        <li>✅ We'll turn it into an epic meme</li>
+                        <li>✅ Get featured with your GitHub username</li>
+                        <li>✅ Become part of meme history</li>
+                        <li>✅ Help others laugh at (and learn from) Copilot's "creativity"</li>
+                    </ul>
+                    <p class="note">💡 All submissions require your consent to feature your username. We celebrate your courage to share!</p>
+                </div>
+                <div class="submit-action">
+                    <a href="https://github.com/fAIempire/GitHub-CoPilot-Memes/issues/new/choose" class="btn btn-large" target="_blank">
+                        Submit Your Copilot Fail
+                    </a>
+                    <p class="github-note">Opens GitHub Issues with our special template</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About This Project</h2>
+            <p>GitHub Copilot is amazing... until it's hilariously wrong. This is a community-driven collection of the funniest, most facepalm-worthy moments when Copilot decided to "help."</p>
+            <p>Every meme here comes from real developers who bravely shared their fails. We celebrate the chaos, learn from the mistakes, and laugh together.</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">250+</span>
+                    <span class="stat-label">Memes Created</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Contributors</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50k+</span>
+                    <span class="stat-label">Laughs Generated</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 The fAi Empire | MIT License</p>
+            <p>Made with 💻 and 😂 by developers who've been there</p>
+            <div class="social-links">
+                <a href="https://github.com/fAIempire/GitHub-CoPilot-Memes">⭐ Star on GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
