@@ -462,3 +462,12 @@ footer p {
         grid-template-columns: 1fr;
     }
 }
+
+/* Error Message */
+.error-message {
+    text-align: center;
+    color: var(--secondary-color);
+    padding: 2rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}

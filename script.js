@@ -186,6 +186,9 @@ async function loadMemesFromGitHub() {
     try {
         // This will fetch issues from GitHub API
         const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission');
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
+        }
         const issues = await response.json();
         
         // Convert issues to meme format
@@ -207,6 +210,12 @@ async function loadMemesFromGitHub() {
         loadGalleryMemes();
     } catch (error) {
         console.error('Error loading memes from GitHub:', error);
+        // Show user feedback when loading fails
+        const featuredSection = document.getElementById('featured-memes');
+        const gallerySection = document.getElementById('meme-gallery');
+        const errorMessage = '<p class="error-message">Failed to load memes from GitHub. Please try again later.</p>';
+        if (featuredSection) featuredSection.innerHTML = errorMessage;
+        if (gallerySection) gallerySection.innerHTML = errorMessage;
     }
 }
 
