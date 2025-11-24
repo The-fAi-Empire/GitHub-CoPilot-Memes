@@ -13,7 +13,10 @@ let memesData = [
             fire: 432
         }
     }
-    // More memes will be added here
+    // Additional meme objects should follow the same structure as above.
+    // Each meme is an object with: id, contributor, date, title, category, image, reactions.
+    // In production, memesData should be populated from the GitHub Issues API:
+    // See https://docs.github.com/en/rest/issues/issues for details.
 ];
 
 // Initialize the page
@@ -102,12 +105,13 @@ function reactToMeme(memeId, reactionType) {
     if (!meme) return;
     
     // Increment reaction count (in real app, this would call an API)
-    if (reactionType === 'laugh') meme.reactions.laugh++;
-    if (reactionType === 'skull') meme.reactions.skull++;
-    if (reactionType === 'fire') meme.reactions.fire++;
+    if (reactionType in meme.reactions) {
+        meme.reactions[reactionType]++;
+    }
     
     // Reload the gallery to show updated counts
-    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+    const activeFilterBtn = document.querySelector('.filter-btn.active');
+    const activeFilter = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
     loadGalleryMemes(activeFilter);
     
     // Add animation feedback
@@ -185,7 +189,26 @@ function setupSmoothScroll() {
 async function loadMemesFromGitHub() {
     try {
         // This will fetch issues from GitHub API
-        const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission');
+        const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission', {
+            headers: {
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+        
+        // Check for rate limiting
+        if (response.status === 403) {
+            const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
+            if (rateLimitRemaining === '0') {
+                const resetTime = response.headers.get('X-RateLimit-Reset');
+                console.error('GitHub API rate limit exceeded. Resets at:', new Date(resetTime * 1000));
+                return;
+            }
+        }
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const issues = await response.json();
         
         // Convert issues to meme format
@@ -197,9 +220,13 @@ async function loadMemesFromGitHub() {
             category: getCategoryFromLabels(issue.labels),
             image: extractImageFromIssue(issue.body),
             reactions: {
-                laugh: issue.reactions['+1'] || 0,
-                skull: issue.reactions.laugh || 0,
-                fire: issue.reactions.heart || 0
+                // Map GitHub reactions to our custom emoji reactions
+                // laugh (😂) <- laugh reaction from GitHub
+                // skull (💀) <- confused reaction from GitHub
+                // fire (🔥) <- hooray reaction from GitHub
+                laugh: issue.reactions.laugh || 0,
+                skull: issue.reactions.confused || 0,
+                fire: issue.reactions.hooray || 0
             }
         }));
         
@@ -239,6 +266,9 @@ function extractImageFromIssue(body) {
 
 // Update stats dynamically
 function updateStats() {
-    document.querySelector('.stat-number').textContent = memesData.length + '+';
+    const memeCountElement = document.querySelector('#meme-count');
+    if (memeCountElement) {
+        memeCountElement.textContent = memesData.length + '+';
+    }
     // Other stats can be calculated from memesData
 }
