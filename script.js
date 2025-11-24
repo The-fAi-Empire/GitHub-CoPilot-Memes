@@ -102,12 +102,13 @@ function reactToMeme(memeId, reactionType) {
     if (!meme) return;
     
     // Increment reaction count (in real app, this would call an API)
-    if (reactionType === 'laugh') meme.reactions.laugh++;
-    if (reactionType === 'skull') meme.reactions.skull++;
-    if (reactionType === 'fire') meme.reactions.fire++;
+    if (meme.reactions.hasOwnProperty(reactionType)) {
+        meme.reactions[reactionType]++;
+    }
     
     // Reload the gallery to show updated counts
-    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+    const activeFilterBtn = document.querySelector('.filter-btn.active');
+    const activeFilter = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
     loadGalleryMemes(activeFilter);
     
     // Add animation feedback
@@ -239,6 +240,6 @@ function extractImageFromIssue(body) {
 
 // Update stats dynamically
 function updateStats() {
-    document.querySelector('.stat-number').textContent = memesData.length + '+';
+    document.querySelector('#meme-count').textContent = memesData.length + '+';
     // Other stats can be calculated from memesData
 }
