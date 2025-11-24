@@ -13,7 +13,10 @@ let memesData = [
             fire: 432
         }
     }
-    // More memes will be added here
+    // Additional meme objects should follow the same structure as above.
+    // Each meme is an object with: id, contributor, date, title, category, image, reactions.
+    // In production, memesData should be populated from the GitHub Issues API:
+    // See https://docs.github.com/en/rest/issues/issues for details.
 ];
 
 // Initialize the page
@@ -186,6 +189,21 @@ async function loadMemesFromGitHub() {
     try {
         // This will fetch issues from GitHub API
         const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission');
+        
+        // Check for rate limiting
+        if (response.status === 403) {
+            const rateLimitReset = response.headers.get('X-RateLimit-Reset');
+            if (rateLimitReset) {
+                const resetTime = new Date(rateLimitReset * 1000).toLocaleTimeString();
+                throw new Error(`GitHub API rate limit exceeded. Try again at ${resetTime}`);
+            }
+            throw new Error(`GitHub API access forbidden. This may be due to authentication or repository access issues.`);
+        }
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+        }
+        
         const issues = await response.json();
         
         // Convert issues to meme format
@@ -197,9 +215,9 @@ async function loadMemesFromGitHub() {
             category: getCategoryFromLabels(issue.labels),
             image: extractImageFromIssue(issue.body),
             reactions: {
-                laugh: issue.reactions['+1'] || 0,
-                skull: issue.reactions.laugh || 0,
-                fire: issue.reactions.heart || 0
+                laugh: issue.reactions.laugh || 0,
+                skull: issue.reactions.confused || 0,
+                fire: issue.reactions.hooray || 0
             }
         }));
         
