@@ -13,7 +13,10 @@ let memesData = [
             fire: 432
         }
     }
-    // More memes will be added here
+    // Additional meme objects should follow the same structure as above.
+    // Each meme is an object with: id, contributor, date, title, category, image, reactions.
+    // In production, memesData should be populated from the GitHub Issues API:
+    // See https://docs.github.com/en/rest/issues/issues for details.
 ];
 
 // Initialize the page
@@ -185,7 +188,36 @@ function setupSmoothScroll() {
 async function loadMemesFromGitHub() {
     try {
         // This will fetch issues from GitHub API
-        const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission');
+        const headers = {
+            'Accept': 'application/vnd.github.v3+json'
+        };
+        // Add authentication token if available to increase rate limits
+        // SECURITY WARNING: Token authentication should be handled server-side via a backend proxy
+        // Client-side tokens are visible to users and should never be used in production
+        // This code is provided as a placeholder for server-side implementation
+        if (typeof GITHUB_TOKEN !== 'undefined' && GITHUB_TOKEN) {
+            headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+        }
+        
+        const response = await fetch('https://api.github.com/repos/fAIempire/GitHub-CoPilot-Memes/issues?labels=meme-submission', {
+            headers: headers
+        });
+        
+        // Check for rate limiting
+        if (response.status === 403) {
+            const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
+            if (rateLimitRemaining !== null && rateLimitRemaining === '0') {
+                const rateLimitReset = response.headers.get('X-RateLimit-Reset');
+                const resetTime = rateLimitReset ? new Date(rateLimitReset * 1000).toLocaleTimeString() : 'later';
+                throw new Error(`GitHub API rate limit exceeded. Try again at ${resetTime}`);
+            }
+            throw new Error(`GitHub API access forbidden: ${response.statusText}`);
+        }
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+        }
+        
         const issues = await response.json();
         
         // Convert issues to meme format
@@ -197,9 +229,13 @@ async function loadMemesFromGitHub() {
             category: getCategoryFromLabels(issue.labels),
             image: extractImageFromIssue(issue.body),
             reactions: {
-                laugh: issue.reactions['+1'] || 0,
-                skull: issue.reactions.laugh || 0,
-                fire: issue.reactions.heart || 0
+                // Map GitHub reaction types to our display reactions:
+                // laugh emoji from GitHub -> laugh reaction
+                // confused emoji from GitHub -> skull reaction (represents confusion/mind blown)
+                // hooray emoji from GitHub -> fire reaction (represents excitement/celebration)
+                laugh: issue.reactions.laugh || 0,
+                skull: issue.reactions.confused || 0,
+                fire: issue.reactions.hooray || 0
             }
         }));
         
